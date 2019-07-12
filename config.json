@@ -1,0 +1,6 @@
+{
+	"url": "mongodb://localhost/altv",
+	"poolSize": 25,
+	"connectMessage":"@@@ => Connected to Database Successfully",
+	"disconnectMessage":"!!! => LOST CONNECTION TO DATABASE"
+}
