@@ -40,7 +40,7 @@ Your import path is very straight forward.
 
 **Importing**
 ```
-import mongov from 'mongo-v';
+import * as mongov from 'mongo-v';
 ```
 
 **General Functions**
