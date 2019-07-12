@@ -18,7 +18,7 @@ Move files / folders accordingly.
 resources/
 └── mongo-v/
     ├── client.mjs
-    ├── server.mjs
+    ├── mongo.mjs
     ├── config.json
     └── resource.cfg
 ```
