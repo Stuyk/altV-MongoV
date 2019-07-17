@@ -23,26 +23,35 @@ export function getDocuments(fieldName, fieldValue, collectionName, callback) {
 
 	// Check if any documents exist outright.
 	collection.countDocuments({}, (err, result) => {
-		if (err || result <= 0) {
-			callback(JSON.stringify([]));
+		if (err) {
+			console.log('first');
+			callback(JSON.stringify(JSON.stringify(new Array(0))));
 			return;
 		}
+
+		if (result <= 0) {
+			console.log('sec');
+			callback(JSON.stringify(new Array(0)));
+			return;
+		}
+
+		// Query the database by fieldName and fieldValue.
+		const query = collection.find({ [fieldName]: fieldValue }).toArray();
+
+		// Return the result through the callback.
+		query.then(
+			(docs) => {
+				console.log('thrd');
+				callback(JSON.stringify(docs));
+				return;
+			},
+			() => {
+				console.log('frth');
+				callback(JSON.stringify(new Array(0)));
+				return;
+			}
+		);
 	});
-
-	// Query the database by fieldName and fieldValue.
-	const query = collection.find({ [fieldName]: fieldValue }).toArray();
-
-	// Return the result through the callback.
-	query.then(
-		(docs) => {
-			callback(JSON.stringify(docs));
-			return;
-		},
-		() => {
-			callback(JSON.stringify([]));
-			return;
-		}
-	);
 }
 
 // Insert documents into a database.
