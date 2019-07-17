@@ -14,7 +14,6 @@ db.on('error', (err) => { alt.emit('dbError', err); });
 db.on('disconnected', () => { alt.emit('dbDisconnect', config.disconnectMessage); });
 
 // Read data from database.
-// Returns undefined if no documents are found / in collection.
 // Returns an array of documents in JSON string format.
 export function getDocuments(fieldName, fieldValue, collectionName, callback) {
 	if (typeof(callback) !== 'function')
@@ -25,7 +24,7 @@ export function getDocuments(fieldName, fieldValue, collectionName, callback) {
 	// Check if any documents exist outright.
 	collection.countDocuments({}, (err, result) => {
 		if (err || result <= 0) {
-			return callback(undefined);
+			return callback([]);
 		}
 	});
 
@@ -36,12 +35,12 @@ export function getDocuments(fieldName, fieldValue, collectionName, callback) {
 	query.then(
 		(docs) => {
 			if (docs.length <= 0)
-				return callback(undefined);
+				return callback([]);
 			console.log(docs);
 			return callback(JSON.stringify(docs));
 		},
 		() => {
-			return callback(undefined);
+			return callback([]);
 		}
 	);
 }
