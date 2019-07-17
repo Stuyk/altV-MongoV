@@ -104,15 +104,21 @@ export function updateDocuments(jsonString, collectionName, callback) {
 		});
 	} else {
 		var completed = [];
-		for (var i = docs.length - 1; i >= 0; i--) {
-			docs[i]._id = mongoose.Types.ObjectId(docs[i]._id);
-			collection.updateOne({ _id: docs[i]._id }, { $set: docs[i] }, (err) => {
+		
+		var updateValues = function(documentID) {
+			docs[documentID]._id = mongoose.Types.ObjectId(docs[documentID]._id);
+			collection.updateOne({ _id: docs[documentID]._id }, { $set: docs[documentID] }, (err) => {
 				if (err)
 					return callback({success: false, docs: docs });
 			});
 			completed.push(docs.pop()._id.toString());
+		};
+		
+		for (var i = docs.length - 1; i >= 0; i--) {
+			updateValues(i);
 			continue;
 		}
+		
 		return callback({success: true, docs: completed });
 	}
 }
