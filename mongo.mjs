@@ -24,7 +24,8 @@ export function getDocuments(fieldName, fieldValue, collectionName, callback) {
 	// Check if any documents exist outright.
 	collection.countDocuments({}, (err, result) => {
 		if (err || result <= 0) {
-			return callback([]);
+			callback(JSON.stringify([]));
+			return;
 		}
 	});
 
@@ -34,13 +35,12 @@ export function getDocuments(fieldName, fieldValue, collectionName, callback) {
 	// Return the result through the callback.
 	query.then(
 		(docs) => {
-			if (docs.length <= 0)
-				return callback([]);
-			console.log(docs);
-			return callback(JSON.stringify(docs));
+			callback(JSON.stringify(docs));
+			return;
 		},
 		() => {
-			return callback([]);
+			callback(JSON.stringify([]));
+			return;
 		}
 	);
 }
