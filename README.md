@@ -77,6 +77,12 @@ function doSomeDatabaseStuff() {
 	// Insert Data
 	// Params: objectAsJSONString, CollectionName
 	mongov.insertDocuments(JSON.stringify(testData), 'players');
+
+	mongov.getCollection('players', (result) => {
+		var docs = JSON.parse(result);
+
+		console.log(docs);
+	});
 	
 	// Get Data
 	// Params: fieldName, fieldValue, collectionName, callback
