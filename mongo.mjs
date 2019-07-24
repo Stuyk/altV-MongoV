@@ -25,7 +25,7 @@ export function getDocuments(fieldName, fieldValue, collectionName, callback) {
 	collection.countDocuments({}, (err, result) => {
 		if (err) {
 			console.log('first');
-			callback(JSON.stringify(JSON.stringify(new Array(0))));
+			callback(JSON.stringify(new Array(0)));
 			return;
 		}
 
@@ -129,4 +129,26 @@ export function updateDocuments(jsonString, collectionName, callback) {
 		
 		return callback({success: true, docs: completed });
 	}
+}
+
+export function getCollection(collectionName, callback) {
+    if (typeof(callback) !== 'function')
+        throw new Error('The callback parameter must be a function.');
+
+    const collection = db.collection(collectionName);
+
+    collection.countDocuments({}, (err, result) => {
+        if (err) {
+            callback(JSON.stringify(new Array(0)));
+            return;
+        }
+
+        if (result <= 0) {
+            callback(JSON.stringify(new Array(0)));
+            return;
+        }
+
+        callback(JSON.stringify(collection));
+        return;
+    });
 }
