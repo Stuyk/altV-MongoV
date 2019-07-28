@@ -135,20 +135,14 @@ export function getCollection(collectionName, callback) {
     if (typeof(callback) !== 'function')
         throw new Error('The callback parameter must be a function.');
 
-    const collection = db.collection(collectionName);
+	const promiseCollection = db.collection(collectionName).find({}).toArray();
 
-    collection.countDocuments({}, (err, result) => {
-        if (err) {
-            callback(JSON.stringify(new Array(0)));
-            return;
-        }
+	promiseCollection.then((documentResult) => {
+		if (documentResult.length <= 0) {
+			callback(JSON.stringify(new Array(0)));
+			return;
+		}
 
-        if (result <= 0) {
-            callback(JSON.stringify(new Array(0)));
-            return;
-        }
-
-        callback(JSON.stringify(collection));
-        return;
-    });
+		callback(JSON.stringify(documentResult));
+	});
 }
