@@ -44,6 +44,8 @@ Your import path is very straight forward.
 import * as mongov from 'mongo-v';
 ```
 
+**IMPORTANT** When you're trying to overwrite the `._id` of a document; it must be within 12 bytes (No longer than 12 characters)
+
 **General Functions**
 ```js
 import * as mongov from 'mongo-v';
@@ -92,6 +94,7 @@ function doSomeDatabaseStuff() {
 		if (docs.length <= 0)
 			return new Error('No documents were found.');
 	
+		console.log(docs[0]._id);
 		docs[0].name = 'stuyk1234';
 		docs[0].numbers = 1521521;
 		docs[0].password = 'abc123';
